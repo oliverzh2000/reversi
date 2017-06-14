@@ -1,0 +1,80 @@
+﻿<Page x:Class="Reversi.HelpPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Reversi"
+      mc:Ignorable="d" 
+      d:DesignHeight="728" d:DesignWidth="1366"
+      Title="HelpPage" Background="{DynamicResource BackgroundLinearGradient}">
+    <Page.Resources>
+        <Storyboard x:Key="EnterHeadingText">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="HighscoresHeading">
+                <SplineDoubleKeyFrame KeyTime="0" Value="-363"/>
+                <SplineDoubleKeyFrame KeyTime="0:0:3" Value="0" KeySpline="0,1,0,1"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="FadeInScores">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="scrollViewer">
+                <EasingDoubleKeyFrame KeyTime="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </Page.Resources>
+    <Page.Triggers>
+        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+            <BeginStoryboard Storyboard="{StaticResource EnterHeadingText}"/>
+            <BeginStoryboard Storyboard="{StaticResource FadeInScores}"/>
+        </EventTrigger>
+    </Page.Triggers>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel x:Name="HighscoresHeading" HorizontalAlignment="Left" Margin="50,0,0,0" d:LayoutOverrides="LeftMargin, RightMargin" VerticalAlignment="Top" Orientation="Horizontal">
+
+            <Button x:Name="Back" Template="{StaticResource WhiteIconButton}" Width="60" Panel.ZIndex="4" Height="60" BorderThickness="0" Margin="5,0,0,0" HorizontalAlignment="Left" d:LayoutOverrides="TopMargin, BottomMargin" VerticalAlignment="Center" Click="Back_Click">
+                <Image Source="Icons/backarrow_black.png"/>
+            </Button>
+
+            <StackPanel>
+                <TextBlock FontSize="72" HorizontalAlignment="Left" FontFamily="Segoe UI Light" Foreground="{DynamicResource PrimaryBrush}" Text="Tutorial"/>
+                <TextBlock FontSize="16" Margin="2,0,0,0">
+                    <Run FontFamily="Segoe UI Semibold" Text="let's learn" Foreground="{DynamicResource GrayBrush}"/>
+                    <Run FontFamily="Segoe UI Semibold" Text="Reversi" Foreground="{DynamicResource BlackBrush}"/>
+                </TextBlock>
+            </StackPanel>
+            <StackPanel.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </StackPanel.RenderTransform>
+        </StackPanel>
+
+        <ScrollViewer x:Name="scrollViewer" Margin="120,180,0,20">
+            <StackPanel>
+                <StackPanel.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Foreground" Value="{StaticResource BlackBrush}" />
+                        <Setter Property="FontSize" Value="16" />
+                    </Style>
+                </StackPanel.Resources>
+
+                <TextBlock Text="In Reversi, your aim is to &quot;eat&quot; your opponent's pieces by flanking them." Margin="0,30,0,0"/>
+                <TextBlock Text="On your turn, you are only allowed to move where you can flank at least one opponent piece." Margin="0,30,0,0"/>
+                <TextBlock Text="The game ends when nobody has any legal moves." Margin="0,30,0,0"/>
+                <TextBlock Margin="0,30,0,0"><Run Text="The player with the highest piece count wins. http://www.wikihow.com/Play-Othello"/><LineBreak/><Run/></TextBlock>
+
+                <TextBlock>           
+                    <Hyperlink NavigateUri="http://www.wikihow.com/Play-Othello" RequestNavigate="Hyperlink_RequestNavigate">
+                        More help
+                    </Hyperlink>
+                </TextBlock>
+            </StackPanel>
+        </ScrollViewer>
+
+    </Grid>
+</Page>

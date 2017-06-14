@@ -1,0 +1,143 @@
+﻿<Application x:Class="Reversi.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Reversi"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <Color x:Key="LightPrimaryColor">#FFFFF5F5</Color>
+        <LinearGradientBrush x:Key="BackgroundLinearGradient" EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0,0">
+            <GradientStop Color="White"/>
+            <GradientStop Color="{StaticResource LightPrimaryColor}" Offset="1"/>
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="PrimaryBrush" Color="#FF873545"/>
+        <SolidColorBrush x:Key="MedPrimaryBrush" Color="#FFE23E5B"/>
+        <SolidColorBrush x:Key="LightPrimaryBrush" Color="{StaticResource LightPrimaryColor}"/>
+        <SolidColorBrush x:Key="BlackBrush" Color="#E5000000"/>
+        <SolidColorBrush x:Key="GrayBrush" Color="#B2000000"/>
+        <SolidColorBrush x:Key="MedGrayBrush" Color="#FFD8D8D8"/>
+        <SolidColorBrush x:Key="LightGrayBrush" Color="#FFF0F0F0"/>
+        <Style x:Key="buttonStyle" TargetType="{x:Type Border}">
+            <Setter Property="BorderBrush" Value="White"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="5"/>
+            <Setter Property="Padding" Value="20, 10"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Style.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="FontSize" Value="14"></Setter>
+                    <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+                    <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                    <Setter Property="Foreground" Value="White"></Setter>
+                </Style>
+            </Style.Resources>
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="MouseEnter">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                    <EasingColorKeyFrame KeyTime="0:0:0.2" Value="#33FFFFFF">
+                                        <EasingColorKeyFrame.EasingFunction>
+                                            <ExponentialEase EasingMode="EaseOut"/>
+                                        </EasingColorKeyFrame.EasingFunction>
+                                    </EasingColorKeyFrame>
+                                </ColorAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="MouseLeave">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                    <EasingColorKeyFrame KeyTime="0:0:0.2" Value="#00FFFFFF">
+                                        <EasingColorKeyFrame.EasingFunction>
+                                            <ExponentialEase EasingMode="EaseOut"/>
+                                        </EasingColorKeyFrame.EasingFunction>
+                                    </EasingColorKeyFrame>
+                                </ColorAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="MouseLeftButtonDown">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard AutoReverse="True">
+                                <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                    <EasingColorKeyFrame KeyTime="0:0:0.1" Value="#66FFFFFF">
+                                        <EasingColorKeyFrame.EasingFunction>
+                                            <QuadraticEase EasingMode="EaseOut"/>
+                                        </EasingColorKeyFrame.EasingFunction>
+                                    </EasingColorKeyFrame>
+                                </ColorAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+        <Storyboard x:Key="EnterHeadingText">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="reversiTextLabel">
+                <SplineDoubleKeyFrame KeyTime="0" Value="-363"/>
+                <SplineDoubleKeyFrame KeyTime="0:0:3" Value="0" KeySpline="0,1,0,1"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <ControlTemplate x:Key="WhiteButton" TargetType="Button">
+            <Border Style="{StaticResource buttonStyle}">
+                <TextBlock Text="{TemplateBinding Button.Content}"
+                           FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontFamily="Segoe UI Semibold"/>
+            </Border>
+        </ControlTemplate>
+        <ControlTemplate x:Key="WhiteIconButton" TargetType="Button">
+            <Border Style="{StaticResource buttonStyle}" BorderThickness="0" Padding="5" CornerRadius="0">
+                <ContentPresenter Content="{TemplateBinding Property=ContentControl.Content}"/>
+            </Border>
+        </ControlTemplate>
+        <Storyboard x:Key="GrowEllipse">
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"
+                             To="1" Duration="0:0:0.4">
+                <DoubleAnimation.EasingFunction>
+                    <BackEase EasingMode="EaseOut" Amplitude="0.5"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                             To="1" Duration="0:0:0.4">
+                <DoubleAnimation.EasingFunction>
+                    <BackEase EasingMode="EaseOut" Amplitude="0.5"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+        <Storyboard x:Key="ShrinkEllipse">
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"
+                             To="0" Duration="0:0:0.2">
+                <DoubleAnimation.EasingFunction>
+                    <ExponentialEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                             To="0" Duration="0:0:0.2">
+                <DoubleAnimation.EasingFunction>
+                    <ExponentialEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+        <Storyboard x:Key="ShrinkBorderThickness">
+            <ThicknessAnimation Storyboard.TargetProperty="BorderThickness" To="0" Duration="0:0:0.1">
+                <ThicknessAnimation.EasingFunction>
+                    <ExponentialEase EasingMode="EaseOut"/>
+                </ThicknessAnimation.EasingFunction>
+            </ThicknessAnimation>
+        </Storyboard>
+        <Storyboard x:Key="GrowBorderThickness">
+            <ThicknessAnimation Storyboard.TargetProperty="BorderThickness" To="5" Duration="0:0:0.2">
+                <ThicknessAnimation.EasingFunction>
+                    <ExponentialEase EasingMode="EaseOut"/>
+                </ThicknessAnimation.EasingFunction>
+            </ThicknessAnimation>
+        </Storyboard>
+    </Application.Resources>
+</Application>
