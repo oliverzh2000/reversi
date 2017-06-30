@@ -1,6 +1,7 @@
 # reversi
 
-Jan 21 2017.
+Created Dec 10 2016.
+Finished Jan 21 2017.
 
 My goal for this app was to make something simple and beautiful, 
 yet featuring a highly competent AI capable of defeating most human players. 
